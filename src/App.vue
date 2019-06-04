@@ -2,7 +2,10 @@
   <div id="app" class="container">
     <h1 id="header">👨🏽‍💻Students 👩🏻‍💻</h1>
 
-    <student :students="students" @delete:student="deleteStudent"/>
+    <student 
+      :students="students" @delete:student="deleteStudent"
+      @edit:student="editStudent"
+      />
     <student-form @add:student="addStudent"/>
   </div>
 </template>
@@ -44,6 +47,21 @@ export default {
         });
         const data = await response.json();
         this.students = [...this.students, data];
+      } catch (error) {
+        console.error(error);
+      }
+    },
+     async editStudent(id, updatedStudent) {
+      try {
+        const response = await fetch("http://localhost:3000/students/" + id, {
+          method: "PUT",
+          body: JSON.stringify(updatedStudent),
+          headers: { "Content-type": "application/json; charset=UTF-8" }
+        });
+        const data = await response.json();
+        console.log(data);
+        
+        // this.students = [...this.students, data];
       } catch (error) {
         console.error(error);
       }

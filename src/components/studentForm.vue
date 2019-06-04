@@ -6,7 +6,7 @@
         v-model="newStudent.student.name"
         type="text"
         ref="first"
-        :class="{ 'has-error': submitting && invalidName }"
+        :class="{ 'has-error': submitting && invalidName }" 
         @focus="clearStatus"
         @keypress="clearStatus"
       >
@@ -42,8 +42,9 @@
           :class="{ 'has-error': submitting && invalidZipCode }"
           @focus="clearStatus"
           >
-
+      <!-- Show an error message if something was missing -->
       <p v-if="error && submitting" class="error-message">❗Please fill out all required fields</p>
+      <!-- Show a success message if everything went through -->
       <p v-if="success" class="success-message">✅  Student successfully added</p>
 
       <button>Add Student</button>
@@ -115,6 +116,7 @@ export default {
  
     }
   },
+  // Clear the inputs after the form is done submitting properly, and
   computed: {
     invalidName() {
       return this.newStudent.student.name === "";

@@ -11,12 +11,41 @@
           <th>Id</th>
         </tr>
         <tr v-for="student in students" :key="student.id">
-          <td id="name">{{ student.student.name }}</td>
-          <td id="email">{{ student.student.email }}</td>
-          <td id="street">{{ student.student.address.street }}</td>
-          <td id="zip">{{ student.student.address.zipCode}}</td>
-          <td id="city">{{ student.student.address.city }}</td>
+
+          <td v-if="editing === student._id">
+           <input type="text" v-model="student.student.name" />
+        </td>
+          <td v-else id="name">{{ student.student.name }}</td>
+
+         <td v-if="editing === student._id">
+            <input type="email" v-model="student.student.email" />
+          </td>
+          <td v-else id="email">{{ student.student.email }}</td>
+
+          <td v-if="editing === student._id">
+            <input type="text" v-model="student.student.address.street" />
+          </td>
+          <td v-else id="street">{{ student.student.address.street }}</td>
+
+          <td v-if="editing === student._id">
+             <input type="text" v-model="student.student.address.zipCode" />
+          </td>
+          <td v-else id="zip">{{ student.student.address.zipCode}}</td>
+
+          <td v-if="editing === student._id">
+             <input type="text" v-model="student.student.address.city" />
+          </td>
+          <td v-else id="city">{{ student.student.address.city }}</td>
+
           <td id="id">{{ student._id}}</td>
+
+           <td v-if="editing === student._id">
+            <button @click="editStudent(student)">Save</button>
+            <!-- <button class="muted-button" @click="editing = null">Cancel</button> -->
+       </td>
+          <td v-else id="button">
+            <button id="edit" @click="editMode(student._id)">Edit</button>
+          </td>
           <td id="button">
             <button id="delete" @click="$emit('delete:student', student._id)">Delete</button>
           </td>
@@ -33,6 +62,22 @@
     props: {
       students: Array,
     },
+    data() {
+      return {
+        editing: null 
+      }
+    }, 
+    methods: {
+      editMode(id) {  
+        this.editing = id;
+      },
+      
+      
+      editStudent(student){
+        this.$emit('edit:student', student._id, student)
+        this.editing = null;
+      }
+    }
   }
 </script>
 
